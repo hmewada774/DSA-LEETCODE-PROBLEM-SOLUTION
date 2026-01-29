@@ -1,0 +1,24 @@
+class Solution {
+public:
+    // int climb(int n){ // tc = O(N)  Reciursion methon
+    //     if(n == 0 || n == 1){
+    //         return 1;
+    //     }
+    //     return climb(n-1) + climb(n-2);
+    // }
+
+    int climbDP(int n, vector<int> & dp){
+        if(n == 0 ||n == 1){ //TC = O(n)  dp method
+            return 1;
+        }
+        if(dp[n] != -1){
+            return dp[n];
+        }
+        dp[n] = climbDP(n-1, dp) + climbDP(n-2, dp);
+        return dp[n];
+    }
+    int climbStairs(int n) {
+        vector<int> dp(n+1, -1);
+        return climbDP(n, dp);
+    }
+};
