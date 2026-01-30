@@ -1,0 +1,24 @@
+class Solution {  //tc = O(n * s)
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int total_sum = 0;
+        for (int x : nums) total_sum += x;
+        if (abs(target) > total_sum || (target + total_sum) % 2 != 0) {
+            return 0;
+        }
+
+        int s = (target + total_sum) / 2;
+        int n = nums.size();
+        
+        vector<int> dp(s + 1, 0);
+        dp[0] = 1;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = s; j >= nums[i]; j--) {
+                dp[j] += dp[j - nums[i]];
+            }
+        }
+
+        return dp[s];
+    }
+};
