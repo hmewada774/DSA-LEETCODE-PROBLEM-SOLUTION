@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool isMatch(string t, string p) {   //tc = O(N∗M)
+    bool isMatch(string t, string p) {     //tc = O(N∗M)
         int n = t.size();
         int m = p.size();
 
