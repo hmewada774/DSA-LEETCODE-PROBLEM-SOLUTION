@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int longestBalanced(string s) {   //tc = O(N)
+    int longestBalanced(string s) { //tc = O(N)
         int n = s.size();
         int ans = 1;
         
