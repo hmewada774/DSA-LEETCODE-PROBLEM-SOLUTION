@@ -1,0 +1,74 @@
+class Solution {
+public:
+    int longestBalanced(string s) {   //tc = O(N)
+        int n = s.size();
+        int ans = 1;
+        
+        // 1) Single-character runs
+        int run = 1;
+        for (int i = 1; i < n; i++) {
+            if (s[i] == s[i - 1]) {
+                run++;
+                ans = max(ans, run);
+            } else {
+                run = 1;
+            }
+        }
+        
+        // 2) Two-character balance with reset on third char
+        auto solve2 = [&](char x, char y) {
+            unordered_map<int, int> firstPos;
+            firstPos[0] = -1;
+            int diff = 0;
+            int best = 0;
+            int base = -1; // last index where a third char appeared
+            
+            for (int i = 0; i < n; i++) {
+                if (s[i] == x) diff++;
+                else if (s[i] == y) diff--;
+                else {
+                    // reset when third character appears
+                    firstPos.clear();
+                    diff = 0;
+                    base = i;
+                    firstPos[0] = i;
+                    continue;
+                }
+                
+                if (firstPos.count(diff)) {
+                    best = max(best, i - firstPos[diff]);
+                } else {
+                    firstPos[diff] = i;
+                }
+            }
+            return best;
+        };
+        
+        ans = max(ans, solve2('a', 'b'));
+        ans = max(ans, solve2('a', 'c'));
+        ans = max(ans, solve2('b', 'c'));
+        
+        // 3) Three-character balance
+        unordered_map<long long, int> firstPos3;
+        firstPos3[0] = -1;
+        
+        int a = 0, b = 0, c = 0;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == 'a') a++;
+            else if (s[i] == 'b') b++;
+            else c++;
+            
+            int x = a - b;
+            int y = a - c;
+            long long key = ((long long)x << 32) ^ (unsigned long long)y;
+            
+            if (firstPos3.count(key)) {
+                ans = max(ans, i - firstPos3[key]);
+            } else {
+                firstPos3[key] = i;
+            }
+        }
+        
+        return ans;
+    }
+};
