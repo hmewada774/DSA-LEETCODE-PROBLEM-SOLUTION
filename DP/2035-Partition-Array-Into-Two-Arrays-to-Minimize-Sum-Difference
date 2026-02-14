@@ -1,0 +1,65 @@
+class Solution {
+public:
+    int minimumDifference(vector<int>& nums) {  // tc = O(N∗2^N)
+        int n = nums.size() / 2;
+        int totalSum = 0;
+        for (int x : nums) totalSum += x;
+
+        vector<int> left(nums.begin(), nums.begin() + n);
+        vector<int> right(nums.begin() + n, nums.end());
+
+        vector<vector<int>> leftSum(n + 1), rightSum(n + 1);
+
+        // Generate subset sums for left half
+        for (int mask = 0; mask < (1 << n); mask++) {
+            int sum = 0, bits = 0;
+            for (int i = 0; i < n; i++) {
+                if (mask & (1 << i)) {
+                    sum += left[i];
+                    bits++;
+                }
+            }
+            leftSum[bits].push_back(sum);
+        }
+
+        // Generate subset sums for right half
+        for (int mask = 0; mask < (1 << n); mask++) {
+            int sum = 0, bits = 0;
+            for (int i = 0; i < n; i++) {
+                if (mask & (1 << i)) {
+                    sum += right[i];
+                    bits++;
+                }
+            }
+            rightSum[bits].push_back(sum);
+        }
+
+        for (int i = 0; i <= n; i++)
+            sort(rightSum[i].begin(), rightSum[i].end());
+
+        int ans = INT_MAX;
+
+        for (int k = 0; k <= n; k++) {
+            for (int s1 : leftSum[k]) {
+                int target = totalSum / 2 - s1;
+                auto& vec = rightSum[n - k];
+
+                auto it = lower_bound(vec.begin(), vec.end(), target);
+
+                if (it != vec.end()) {
+                    int s2 = *it;
+                    int curr = s1 + s2;
+                    ans = min(ans, abs(totalSum - 2 * curr));
+                }
+                if (it != vec.begin()) {
+                    --it;
+                    int s2 = *it;
+                    int curr = s1 + s2;
+                    ans = min(ans, abs(totalSum - 2 * curr));
+                }
+            }
+        }
+
+        return ans;
+    }
+};
