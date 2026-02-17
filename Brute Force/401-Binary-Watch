@@ -1,6 +1,6 @@
 class Solution {
 public:
-    vector<string> readBinaryWatch(int turnedOn) {
+    vector<string> readBinaryWatch(int turnedOn) { //tc = O(1)
         
         vector<string> result;
         
