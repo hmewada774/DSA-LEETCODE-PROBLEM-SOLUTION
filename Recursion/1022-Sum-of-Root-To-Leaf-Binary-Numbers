@@ -1,4 +1,4 @@
-class Solution {
+class Solution {   //tc = O(n)
 public:
     
     int sumRootToLeaf(TreeNode* root) {
