@@ -1,0 +1,24 @@
+class Solution {
+public:
+    
+    int sumRootToLeaf(TreeNode* root) {
+        return dfs(root, 0);
+    }
+    
+private:
+    
+    int dfs(TreeNode* node, int current) {
+        if (!node) return 0;
+        
+        // Step 1: Bit Manipulation (append current bit)
+        current = (current << 1) | node->val;
+        
+        // Step 2: If leaf node → return formed number
+        if (!node->left && !node->right)
+            return current;
+        
+        // Step 3: DFS on left and right
+        return dfs(node->left, current) +
+               dfs(node->right, current);
+    }
+};
