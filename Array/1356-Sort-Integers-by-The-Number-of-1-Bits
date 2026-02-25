@@ -1,0 +1,29 @@
+// class Solution {
+// public:
+//     vector<int> sortByBits(vector<int>& arr) {
+        
+//     }
+// };
+
+class Solution { //tc = O(Nlogn)
+public:
+    // Function to count number of 1 bits (Hamming Weight)
+    int countBits(int n) {
+        return __builtin_popcount(n);  // GCC built-in function
+    }
+
+    vector<int> sortByBits(vector<int>& arr) {
+        
+        sort(arr.begin(), arr.end(), [&](int a, int b) {
+            int bitsA = countBits(a);
+            int bitsB = countBits(b);
+            
+            if (bitsA == bitsB)
+                return a < b;      // secondary sort by value
+            
+            return bitsA < bitsB;  // primary sort by number of 1s
+        });
+        
+        return arr;
+    }
+};
