@@ -1,0 +1,44 @@
+class Solution {  // tc = O(N^2 )
+public:
+    int minSwaps(vector<vector<int>>& grid) {
+        int n = grid.size();
+        vector<int> trailingZeros(n);
+        
+        // Step 1: Count trailing zeros in each row
+        for(int i = 0; i < n; i++) {
+            int count = 0;
+            for(int j = n - 1; j >= 0; j--) {
+                if(grid[i][j] == 0)
+                    count++;
+                else
+                    break;
+            }
+            trailingZeros[i] = count;
+        }
+        
+        int swaps = 0;
+        
+        // Step 2: Fix each row
+        for(int i = 0; i < n; i++) {
+            int requiredZeros = n - i - 1;
+            int j = i;
+            
+            // Find a row below with enough trailing zeros
+            while(j < n && trailingZeros[j] < requiredZeros) {
+                j++;
+            }
+            
+            // If no suitable row found
+            if(j == n) return -1;
+            
+            // Bring row j to position i using adjacent swaps
+            while(j > i) {
+                swap(trailingZeros[j], trailingZeros[j - 1]);
+                swaps++;
+                j--;
+            }
+        }
+        
+        return swaps;
+    }
+};
