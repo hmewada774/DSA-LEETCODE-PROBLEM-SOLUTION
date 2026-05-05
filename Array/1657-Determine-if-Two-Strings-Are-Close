@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool closeStrings(string word1, string word2) {
+        if(word1.length() != word2.length()){
+            return false;
+        }
+
+        int cal1[26] = {0};
+        int cal2[26] = {0};
+        for(int i = 0; i < word1.length(); i++){
+            cal1[word1[i] - 'a']++;
+            cal2[word2[i] - 'a']++;
+        }
+
+        for(int i = 0; i < 26; i++){
+            if((cal1[i] > 0) != (cal2[i] > 0)){
+                return false;
+            }
+        }
+
+        sort(cal1, cal1 + 26);
+        sort(cal2, cal2 + 26);
+
+        for(int i = 0; i < 26; i++){
+            if(cal1[i] != cal2[i]){
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
