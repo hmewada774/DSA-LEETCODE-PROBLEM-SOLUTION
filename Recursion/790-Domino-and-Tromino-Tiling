@@ -1,0 +1,18 @@
+class Solution {
+public:
+
+    int tile(int n){
+        if(n == 1 || n == 0){
+            return 1;
+        }
+        if(n == 2){
+            return 2;
+        }
+        int ans1 = 2*tile(n-1);
+        int ans2 = tile(n-3);
+        return ans1+ans2;
+    }
+    int numTilings(int n) {
+        return tile(n);
+    }
+};
