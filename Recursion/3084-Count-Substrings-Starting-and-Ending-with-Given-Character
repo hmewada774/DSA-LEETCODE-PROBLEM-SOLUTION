@@ -1,0 +1,25 @@
+class Solution {
+public:
+
+    int counts(string &s, char c, int count, int i, int n) {
+
+        if (i >= n) {
+            return count;
+        }
+
+        if (s[i] == c) {
+            count++;
+        }
+
+        return counts(s, c, count, i + 1, n);
+    }
+
+    long long countSubstrings(string s, char c) {
+
+        int n = s.size();
+
+        int count = counts(s, c, 0, 0, n);
+
+        return 1LL * count * (count + 1) / 2;
+    }
+};
