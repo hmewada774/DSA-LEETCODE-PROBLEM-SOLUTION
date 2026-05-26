@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+
+        int n = strs.size();
+
+        // Store {sorted_string, original_string}
+        vector<pair<string, string>> v;
+
+        for (int i = 0; i < n; i++) {
+            string temp = strs[i];
+
+            sort(temp.begin(), temp.end());
+
+            v.push_back({temp, strs[i]});
+        }
+
+        // Sort according to sorted strings
+        sort(v.begin(), v.end());
+
+        vector<vector<string>> ans;
+
+        vector<string> group;
+
+        group.push_back(v[0].second);
+
+        for (int i = 1; i < n; i++) {
+
+            if (v[i].first == v[i - 1].first) {
+                group.push_back(v[i].second);
+            } 
+            else {
+                ans.push_back(group);
+
+                group.clear();
+
+                group.push_back(v[i].second);
+            }
+        }
+
+        // push last group
+        ans.push_back(group);
+
+        return ans;
+    }
+};
