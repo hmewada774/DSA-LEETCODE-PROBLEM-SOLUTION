@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> dp;
+    
+    int ways(int r, int c, int m, int n){
+        
+        if(r == m-1 || c == n-1){
+            return 1;
+        }
+        if(r>=m && c>=n){
+            return 0;
+        }
+
+        if (dp[r][c] != -1)
+            return dp[r][c];
+
+        int val1 = ways(r,c+1,m,n);
+        int val2 = ways(r+1,  c,  m,  n);
+
+        return dp[r][c] =  val1+ val2;
+    }
+    int uniquePaths(int m, int n) {
+         dp.resize(m, vector<int>(n, -1));
+
+       return ways(0,0,m,n);
+    }
+};
