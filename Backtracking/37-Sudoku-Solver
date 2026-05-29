@@ -1,0 +1,71 @@
+class Solution {
+public:
+
+    // void printSudoku(vector<vector<char>>& sudoku){
+    //     for(int i = 0; i<9; i++){
+    //         for(int j = 0; j<9; j++){
+    //             cout<<sudoku[i][j]<<",";
+    //         }
+    //         cout<<endl;
+    //     }
+    // }
+
+    bool isSafe(vector<vector<char>>& suduko, int row, int col, int digit){
+        for(int i = 0; i<=8; i++){
+            if(suduko[i][col] == digit){
+                return false;
+            }
+        }
+        for(int i = 0; i<=8; i++){
+            if(suduko[row][i] == digit){
+                return false;
+            }
+        }
+
+        int sr = (row/3)*3;
+        int sc = (col/3)*3;
+
+        for(int i = sr; i<= sr+2; i++){
+            for(int j = sc; j<= sc+2; j++){
+                if(suduko[i][j] == digit){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool SudukoSolver(vector<vector<char>>& suduko, int row, int col){
+        if(row == 9){
+            //printSudoku(suduko);
+            return true;
+        }
+
+        int nRow = row;
+        int nCol = col+1;
+        if(nCol == 9){
+            nRow = row+1;
+            nCol = 0;
+        }
+        if(suduko[row][col] != '.' ){
+            return SudukoSolver(suduko, nRow, nCol);
+        }
+
+        for(char digit = '1'; digit <= '9'; digit++){
+            if(isSafe(suduko, row, col , digit)){
+                suduko[row][col] = digit;
+                if(SudukoSolver(suduko, nRow, nCol)){
+                    return true;
+                    
+                }
+                suduko[row][col] = '.';
+            }
+        }
+        return false;
+    }
+
+    void solveSudoku(vector<vector<char>>& board) {
+        SudukoSolver(board, 0,0);
+    }
+};
