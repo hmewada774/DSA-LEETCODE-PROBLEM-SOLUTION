@@ -1,0 +1,37 @@
+class Solution {
+public:
+    void solve(vector<int>& candidates,
+               int idx,
+               vector<int>& combination,
+               vector<vector<int>>& ans,
+               int target) {
+
+        if (target == 0) {
+            ans.push_back(combination);
+            return;
+        }
+
+        if (idx == candidates.size() || target < 0) {
+            return;
+        }
+
+        // Take current element
+        combination.push_back(candidates[idx]);
+        solve(candidates, idx, combination, ans,
+              target - candidates[idx]);
+        combination.pop_back();
+
+        // Skip current element
+        solve(candidates, idx + 1, combination, ans, target);
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates,
+                                       int target) {
+        vector<vector<int>> ans;
+        vector<int> combination;
+
+        solve(candidates, 0, combination, ans, target);
+
+        return ans;
+    }
+};
