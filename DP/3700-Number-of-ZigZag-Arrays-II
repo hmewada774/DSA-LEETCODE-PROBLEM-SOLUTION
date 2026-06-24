@@ -1,0 +1,101 @@
+// class Solution {
+// public:
+//     int zigZagArrays(int n, int l, int r) {
+        
+//     }
+// };
+
+
+
+class Solution {
+public:
+    static constexpr long long MOD = 1e9 + 7;
+
+    struct Matrix {
+        int n;
+        vector<vector<long long>> a;
+
+        Matrix(int n, bool identity = false) : n(n) {
+            a.assign(n, vector<long long>(n, 0));
+            if (identity) {
+                for (int i = 0; i < n; i++) a[i][i] = 1;
+            }
+        }
+
+        Matrix operator*(const Matrix& other) const {
+            Matrix res(n);
+
+            for (int i = 0; i < n; i++) {
+                for (int k = 0; k < n; k++) {
+                    if (!a[i][k]) continue;
+
+                    for (int j = 0; j < n; j++) {
+                        if (!other.a[k][j]) continue;
+
+                        res.a[i][j] =
+                            (res.a[i][j] +
+                             a[i][k] * other.a[k][j]) % MOD;
+                    }
+                }
+            }
+
+            return res;
+        }
+    };
+
+    Matrix power(Matrix base, long long exp) {
+        Matrix res(base.n, true);
+
+        while (exp) {
+            if (exp & 1) res = res * base;
+            base = base * base;
+            exp >>= 1;
+        }
+
+        return res;
+    }
+
+    int zigZagArrays(int n, int l, int r) {
+        int m = r - l + 1;
+
+        if (n == 1) return m;
+
+        int S = 2 * m;
+
+        Matrix T(S);
+
+        // state i      : UP(i)
+        // state m + i  : DOWN(i)
+
+        for (int x = 0; x < m; x++) {
+
+            // UP(x) -> DOWN(y), y > x
+            for (int y = x + 1; y < m; y++) {
+                T.a[x][m + y] = 1;
+            }
+
+            // DOWN(x) -> UP(y), y < x
+            for (int y = 0; y < x; y++) {
+                T.a[m + x][y] = 1;
+            }
+        }
+
+        Matrix P = power(T, n - 1);
+
+        vector<long long> init(S, 1);
+
+        long long ans = 0;
+
+        for (int i = 0; i < S; i++) {
+            long long rowSum = 0;
+
+            for (int j = 0; j < S; j++) {
+                rowSum = (rowSum + P.a[i][j]) % MOD;
+            }
+
+            ans = (ans + rowSum) % MOD;
+        }
+
+        return (int)ans;
+    }
+};
