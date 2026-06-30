@@ -1,12 +1,3 @@
-// class Solution {
-// public:
-//     int numberOfSubstrings(string s) {
-        
-//     }
-// };
-
-
-
 class Solution {
 public:
     int numberOfSubstrings(string s) {
