@@ -1,0 +1,42 @@
+// class Solution {
+// public:
+//     int GCD(int a, int b) {
+//         while (b != 0) {
+//             int temp = b;
+//             b = a % b;
+//             a = temp;
+//         }
+//         return a;
+//     }
+
+//     int gcdOfOddEvenSums(int n) {
+//         int oddSum = 0;
+//         for (int i = 1; i <= 2 * n - 1; i += 2) {
+//             oddSum += i;
+//         }
+
+//         int evenSum = 0;
+//         for (int i = 2; i <= 2 * n; i += 2) {
+//             evenSum += i;
+//         }
+
+//         return GCD(oddSum, evenSum);
+//     }
+// };
+
+
+class Solution {
+public:
+    int GCD(int a, int b) {
+        while (b) {
+            int t = a % b;
+            a = b;
+            b = t;
+        }
+        return a;
+    }
+
+    int gcdOfOddEvenSums(int n) {
+        return GCD(n * n, n * (n + 1));
+    }
+};
