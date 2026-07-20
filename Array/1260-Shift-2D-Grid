@@ -1,0 +1,60 @@
+// class Solution {
+// public:
+//     vector<vector<int>> shiftGrid(vector<vector<int>>& grid, int k) {
+//         int row = grid.size();
+//         int col = grid[0].size();
+//         k%=(row*col);
+
+//         vector<vector<int>> ans(row, vector<int>(col));
+
+//         for(int i = 0; i<row; i++){
+//             for(int j = 0; j<col; j++){
+//                 int nrow = i;
+//                 int ncol = j=k;
+
+//                 if(ncol >= col){
+//                     nrow += ncol/col;
+//                     if(nrow >= row){
+//                         nrow %= row;
+//                     }
+//                     ncol %= col;
+//                 }
+
+//                 ans[nrow][ncol] = grid[i][j];
+//             }
+//         }
+
+//         return ans;
+
+//     }
+// };
+
+
+class Solution {
+public:
+    vector<vector<int>> shiftGrid(vector<vector<int>>& grid, int k) {
+        int row = grid.size();
+        int col = grid[0].size();
+
+        k %= (row * col);
+
+        vector<vector<int>> ans(row, vector<int>(col));
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                int nrow = i;
+                int ncol = j + k;
+
+                if (ncol >= col) {
+                    nrow += ncol / col;
+                    ncol %= col;
+                    nrow %= row;
+                }
+
+                ans[nrow][ncol] = grid[i][j];
+            }
+        }
+
+        return ans;
+    }
+};
