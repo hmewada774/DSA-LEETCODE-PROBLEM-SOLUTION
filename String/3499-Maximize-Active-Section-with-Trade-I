@@ -1,0 +1,44 @@
+// class Solution {
+// public:
+//     int maxActiveSectionsAfterTrade(string s) {
+        
+//     }
+// };
+
+class Solution {
+public:
+    int maxActiveSectionsAfterTrade(string s) {
+        // Augment the string
+        string t = "1" + s + "1";
+
+        // Count initial active sections (1's) in original string
+        int ones = 0;
+        for (char c : s) {
+            if (c == '1') ones++;
+        }
+
+        // Run Length Encoding
+        vector<pair<char, int>> runs;
+        for (char c : t) {
+            if (runs.empty() || runs.back().first != c)
+                runs.push_back({c, 1});
+            else
+                runs.back().second++;
+        }
+
+        int maxGain = 0;
+
+        // Check every surrounded 1-block
+        for (int i = 1; i + 1 < runs.size(); i++) {
+            if (runs[i].first == '1' &&
+                runs[i - 1].first == '0' &&
+                runs[i + 1].first == '0') {
+
+                int gain = runs[i - 1].second + runs[i + 1].second;
+                maxGain = max(maxGain, gain);
+            }
+        }
+
+        return ones + maxGain;
+    }
+};
