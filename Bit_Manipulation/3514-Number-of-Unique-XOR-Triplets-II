@@ -1,0 +1,42 @@
+// class Solution {
+// public:
+//     int uniqueXorTriplets(vector<int>& nums) {
+        
+//     }
+// };
+
+
+class Solution {
+public:
+    int uniqueXorTriplets(vector<int>& nums) {
+        const int MAXX = 2048;
+
+        vector<char> dp1(MAXX, 0), dp2(MAXX, 0), dp3(MAXX, 0);
+        vector<char> present(MAXX, 0);
+
+        for (int v : nums) {
+            present[v] = 1;
+
+            // update backwards so current element is used only once
+            vector<char> ndp3 = dp3;
+            vector<char> ndp2 = dp2;
+            vector<char> ndp1 = dp1;
+
+            for (int x = 0; x < MAXX; x++) {
+                if (dp2[x]) ndp3[x ^ v] = 1;
+                if (dp1[x]) ndp2[x ^ v] = 1;
+            }
+            ndp1[v] = 1; // 0 ^ v
+
+            dp1.swap(ndp1);
+            dp2.swap(ndp2);
+            dp3.swap(ndp3);
+        }
+
+        int ans = 0;
+        for (int x = 0; x < MAXX; x++) {
+            if (present[x] || dp3[x]) ans++;
+        }
+        return ans;
+    }
+};
