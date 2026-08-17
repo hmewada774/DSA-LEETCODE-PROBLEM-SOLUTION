@@ -1,0 +1,60 @@
+// class Solution {
+// public:
+//     string decodeString(string s) {
+        
+//     }
+// };
+
+
+
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<int> numStack;
+        stack<string> strStack;
+
+        int num = 0;
+        string curr = "";
+
+        for (int i = 0; i < s.size(); i++) {
+
+            // If digit
+            if (isdigit(s[i])) {
+                num = num * 10 + (s[i] - '0');
+            }
+
+            // If [
+            else if (s[i] == '[') {
+                numStack.push(num);
+                strStack.push(curr);
+
+                num = 0;
+                curr = "";
+            }
+
+            // If letter
+            else if (isalpha(s[i])) {
+                curr += s[i];
+            }
+
+            // If ]
+            else if (s[i] == ']') {
+                int repeat = numStack.top();
+                numStack.pop();
+
+                string previous = strStack.top();
+                strStack.pop();
+
+                string temp = "";
+
+                for (int j = 0; j < repeat; j++) {
+                    temp += curr;
+                }
+
+                curr = previous + temp;
+            }
+        }
+
+        return curr;
+    }
+};
