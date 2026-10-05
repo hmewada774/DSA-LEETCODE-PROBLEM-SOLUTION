@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool checkValidGrid(vector<vector<int>>& grid) {
+        int n = grid.size();
+
+        // Knight must start at top-left.
+        if (grid[0][0] != 0)
+            return false;
+
+        // pos[k] = position of step k.
+        vector<pair<int, int>> pos(n * n);
+
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c < n; c++) {
+                pos[grid[r][c]] = {r, c};
+            }
+        }
+
+        // Check every consecutive knight move.
+        for (int k = 1; k < n * n; k++) {
+            auto [r1, c1] = pos[k - 1];
+            auto [r2, c2] = pos[k];
+
+            int dr = abs(r1 - r2);
+            int dc = abs(c1 - c2);
+
+            if (!((dr == 1 && dc == 2) ||
+                  (dr == 2 && dc == 1))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
