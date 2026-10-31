@@ -1,29 +1,13 @@
 class Solution {
 public:
-    void rotate(vector<int>& nums, int k) {
+    vector<int> runningSum(vector<int>& nums) {
         int n = nums.size();
-        k = k % n;
-        int l = 0; int r = n-1;
-        while(l<r){
-            swap(nums[l],nums[r]);
-            l++;
-            r--;
+        if(n == 0) return{};
+        vector<int> prefixSum(n);
+        prefixSum[0] = nums[0];
+        for(int i = 1; i<n; i++){
+            prefixSum[i] = prefixSum[i-1]+ nums[i];
         }
-
-        l = 0;
-        r = k-1;
-        while(l<r){
-            swap(nums[l], nums[r]);
-            l++;
-            r--;
-        }
-
-        l = k;
-        r = n-1;
-        while(l < r){
-            swap(nums[l], nums[r]);
-            l++;
-            r--;
-        }
+        return prefixSum;
     }
 };
