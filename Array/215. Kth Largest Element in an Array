@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int ans = INT_MIN;
+        int n = nums.size();
+        for(int i = 0; i<k; i++){
+            int mxi = INT_MIN;
+            int idx = -1;
+
+            for(int j = 0; j<n; j++){
+                if(nums[j] > mxi){
+                    mxi = nums[j];
+                    idx = j;
+                }
+            }
+            ans = mxi;
+            nums[idx] = INT_MIN;
+        }
+        return ans;
+    }
+};
+
+
+
+
