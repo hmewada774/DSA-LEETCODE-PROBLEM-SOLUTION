@@ -1,0 +1,67 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+
+        int n = s.size();
+        int m = t.size();
+
+        if (m > n) {
+            return "";
+        }
+
+        int freq1[128] = {0};
+        int freq2[128] = {0};
+
+        // Count characters in t
+        for (int i = 0; i < m; i++) {
+            freq1[t[i]]++;
+        }
+
+        int left = 0;
+        int right = 0;
+
+        int count = 0;
+        int minLen = INT_MAX;
+        int start = 0;
+
+        while (right < n) {
+
+            // Step 1: Add right character
+            char ch = s[right];
+            freq2[ch]++;
+
+            if (freq2[ch] <= freq1[ch]) {
+                count++;
+            }
+
+            // Step 2: When all characters are found
+            while (count == m) {
+
+                // Update minimum window
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
+                    start = left;
+                }
+
+                // Remove left character
+                char remove = s[left];
+                freq2[remove]--;
+
+                if (freq2[remove] < freq1[remove]) {
+                    count--;
+                }
+
+                left++;
+            }
+
+            // Expand window
+            right++;
+        }
+
+        if (minLen == INT_MAX) {
+            return "";
+        }
+
+        return s.substr(start, minLen);
+    }
+};
