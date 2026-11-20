@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        unordered_map<int, int> mp;
+
+        // Count frequency of each number
+        for (int num : arr) {
+            mp[num]++;
+        }
+
+        // Store frequencies in a set
+        unordered_set<int> st;
+
+        for (auto it : mp) {
+            int freq = it.second;
+
+            // If frequency already exists
+            if (st.find(freq) != st.end()) {
+                return false;
+            }
+
+            st.insert(freq);
+        }
+
+        return true;
+    }
+};
